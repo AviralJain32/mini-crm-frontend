@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -19,7 +18,6 @@ import { toast } from 'sonner';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -114,8 +112,9 @@ const CampaignModal = ({
         )
         .filter(Boolean);
       setSuggestions(lines);
-    } catch (error) {
-      toast.error('Failed to fetch suggestions from AI');
+    } catch (error:unknown) {
+      const err= error as AxiosErrorType
+      toast.error('Failed to fetch suggestions from AI '+ err.message);
       setSuggestions([]);
     } finally {
       setLoadingSuggestions(false);

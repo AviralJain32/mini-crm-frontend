@@ -17,7 +17,6 @@ import {
 import { toast } from 'sonner';
 import { RuleGroupType } from 'react-querybuilder';
 import { formatQuery } from 'react-querybuilder';
-import { useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -36,13 +35,8 @@ const segmentSchema = z.object({
   name: z.string().min(1, 'Segment name is required'),
 });
 
-const campaignSchema = z.object({
-  campaignName: z.string().min(1, 'Campaign name is required'),
-  message: z.string().min(1, 'Message is required'),
-});
 
 type SegmentFormData = z.infer<typeof segmentSchema>;
-type CampaignFormData = z.infer<typeof campaignSchema>;
 
 // ------------------ Component ------------------
 interface SaveSegmentFormProps {
@@ -50,7 +44,6 @@ interface SaveSegmentFormProps {
 }
 
 export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormProps) => {
-  const router = useRouter();
 
   const [openSegmentModal, setOpenSegmentModal] = useState(false);
   const [openCampaignModal, setOpenCampaignModal] = useState(false);
@@ -62,10 +55,6 @@ export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormPro
     resolver: zodResolver(segmentSchema),
   });
 
-  // Campaign form
-  const campaignForm = useForm<CampaignFormData>({
-    resolver: zodResolver(campaignSchema),
-  });
 
   const fetchAudienceSize = async () => {
     try {
@@ -80,15 +69,16 @@ export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormPro
       toast.error(error?.response?.data?.message || 'Failed to preview audience.');
     }
   };
-
+  /* eslint-disable */
   useEffect(() => {
     if (openSegmentModal) {
       fetchAudienceSize();
       segmentForm.reset();
       setAudienceSize(null);
     }
-    /* eslint eqeqeq: "off", curly: "error" */
+    
   }, [openSegmentModal,segmentForm]); 
+  /* eslint-enable */
 
   const handleSaveSegment = async (data: SegmentFormData) => {
     if (!audienceSize || audienceSize <= 0) {
@@ -114,25 +104,6 @@ export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormPro
     }
   };
 
-  const handleSaveCampaign = async (data: CampaignFormData) => {
-    if (!segmentId) {return toast.error('Segment not found for campaign')};
-
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign`, {
-        segmentId,
-        campaignName: data.campaignName,
-        message: data.message,
-        audienceSize
-      }, { withCredentials: true });
-
-      toast.success('Campaign created successfully');
-      setOpenCampaignModal(false);
-      router.push(`/dashboard/campaigns`);
-    } catch (err) {
-      const error = err as AxiosErrorType
-      toast.error(error?.response?.data?.message || 'Failed to save campaign.');
-    }
-  };
 
   return (
     <>
