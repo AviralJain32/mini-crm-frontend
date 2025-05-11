@@ -8,7 +8,7 @@ import * as ReactDndTouchBackend from 'react-dnd-touch-backend';
 import type { Field, RuleGroupType, RuleType } from 'react-querybuilder';
 import { defaultValidator, QueryBuilder } from 'react-querybuilder';
 import 'react-querybuilder/dist/query-builder.css';
-import './styles.css';
+import '@/styles/styles.css';
 import { QueryBuilderAntD } from '@react-querybuilder/antd';
 import '@ant-design/v5-patch-for-react-19';
 

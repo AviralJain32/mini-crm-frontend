@@ -1,173 +1,3 @@
-// 'use client';
-
-// import { useForm } from 'react-hook-form';
-// import { zodResolver } from '@hookform/resolvers/zod';
-// import { z } from 'zod';
-// import axios from 'axios';
-// import { useState, useEffect } from 'react';
-// import { Input } from '@/components/ui/input';
-// import { Button } from '@/components/ui/button';
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogTrigger,
-//   DialogHeader,
-//   DialogTitle,
-// } from '@/components/ui/dialog';
-// import { Label } from '@/components/ui/label';
-// import { toast } from 'sonner';
-// import { RuleGroupType } from 'react-querybuilder';
-// import { formatQuery } from 'react-querybuilder';
-// import { IApiResponse } from '@/types/ApiResponse';
-// import { useRouter } from 'next/router';
-// import CampaignModal from './CampaignModal';
-
-// const schema = z.object({
-//   name: z.string().min(1, 'Segment name is required'),
-// });
-
-// type FormData = z.infer<typeof schema>;
-
-// interface SaveSegmentFormProps {
-//   query: RuleGroupType;
-// }
-
-// export const SaveSegmentForm = ({ query }: SaveSegmentFormProps) => {
-//   const [open, setOpen] = useState(false);
-//   const [audienceSize, setAudienceSize] = useState<number | null>(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState<string | null>(null);
-//   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
-//   const [segmentId, setSegmentId] = useState<string | null>(null);
-//   const router = useRouter()
-
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors, isSubmitting },
-//     reset,
-//   } = useForm<FormData>({
-//     resolver: zodResolver(schema),
-//   });
-
-//   const fetchAudienceSize = async () => {
-//     try {
-//       setLoading(true);
-//       setError(null);
-
-//       const mongoQuery = formatQuery(query, { format: 'mongodb', parseNumbers: true });
-//       const res = await axios.post(
-//         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/segment/previewAudience`,
-//         { mongoQuery },
-//         { withCredentials: true } 
-//       );
-
-//       setAudienceSize(res.data.data.audienceSize);
-//     } catch (err: any) {
-//       console.error('Audience fetch failed:', err);
-//       const msg = err?.response?.data?.message || 'Failed to preview audience.';
-//       setError(msg);
-//       toast.error(msg);
-//       setAudienceSize(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Automatically preview audience size on modal open
-//   useEffect(() => {
-//     if (open) {
-//       fetchAudienceSize();
-//       reset(); // Reset form when modal opens
-//       setAudienceSize(null);
-//       setError(null);
-//     }
-//   }, [open, reset]);
-
-//   const onSubmit = async (data: FormData) => {
-//     if (audienceSize === null || audienceSize <= 0) {
-//       const message = 'Audience size must be greater than 0 to save the segment.';
-//       toast.error(message);
-//       setError(message);
-//       return;
-//     }
-
-//     try {
-//       const mongoQuery = formatQuery(query, { format: 'mongodb', parseNumbers: true });
-
-//       const res=await axios.post<IApiResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/segment`, {
-//         name: data.name,
-//         rules: mongoQuery,
-        
-//       },{ withCredentials: true });
-
-//       if(res.data.success){
-//         const segmentId = res.data.data._id;
-//         setSegmentId(segmentId);
-//         setCampaignModalOpen(true); // open campaign modal
-//         setOpen(false);
-//         toast.success('Segment saved successfully');
-//       }
-
-
-//       toast.success('Segment saved successfully');
-//       setOpen(false);
-//     } catch (err: any) {
-//       const message = err?.response?.data?.message || 'Failed to save segment.';
-//       toast.error(message);
-//     }
-//   };
-
-//   return (
-//     <>
-//     <Dialog open={open} onOpenChange={setOpen}>
-//       <DialogTrigger asChild>
-//         <Button variant="default">Save Segment</Button>
-//       </DialogTrigger>
-
-//       <DialogContent>
-//         <DialogHeader>
-//           <DialogTitle>Save Segment</DialogTitle>
-//           <p className="text-sm text-muted-foreground">
-//             Enter a name for your segment. Audience size will be previewed automatically.
-//           </p>
-//         </DialogHeader>
-
-//         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-4">
-//           {/* Segment Name Input */}
-//           <div>
-//             <Label htmlFor="name" className='mb-3'>Segment Name</Label>
-//             <Input id="name" placeholder="e.g., High Spenders" {...register('name')} />
-//             {errors.name && (
-//               <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>
-//             )}
-//           </div>
-
-//           {/* Audience Preview */}
-//           <div className="rounded border p-4 bg-muted">
-//             <p className="text-sm font-medium mb-2">Audience Preview</p>
-//             {loading && (
-//               <p className="text-sm text-muted-foreground">Calculating audience size...</p>
-//             )}
-//             {error && <p className="text-sm text-red-500">{error}</p>}
-//             {audienceSize !== null && !loading && (
-//               <p className="text-lg font-semibold">Audience Size: {audienceSize}</p>
-//             )}
-//           </div>
-
-//           {/* Submit Button */}
-//           <Button type="submit" disabled={isSubmitting || loading}>
-//             {isSubmitting || loading ? 'Processing...' : 'Save Segment'}
-//           </Button>
-//         </form>
-//       </DialogContent>
-//     </Dialog>
-
-//     <CampaignModal open={campaignModalOpen} onOpenChange={setCampaignModalOpen}></CampaignModal>
-//     </>
-//   );
-// };
-
 'use client'
 
 import { useForm } from 'react-hook-form';
@@ -199,6 +29,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { AxiosErrorType } from '@/types/ErrorType';
+import CampaignModal from '../../../../components/CampaignModal';
 
 // ------------------ Zod Schemas ------------------
 const segmentSchema = z.object({
@@ -351,7 +182,7 @@ export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormPro
       </Dialog>
 
       {/* Campaign Modal */}
-      <Dialog open={openCampaignModal} onOpenChange={setOpenCampaignModal}>
+      {/* <Dialog open={openCampaignModal} onOpenChange={setOpenCampaignModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create Campaign</DialogTitle>
@@ -392,7 +223,9 @@ export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormPro
             </form>
           </Form>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
+
+      <CampaignModal audienceSize={audienceSize} openCampaignModal={openCampaignModal} segmentId={segmentId} setOpenCampaignModal={setOpenCampaignModal} />
     </>
   );
 };

@@ -1,9 +1,8 @@
-"use client";
-
-import React, { useEffect, useState } from 'react';
-import api from '@/services/api';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+"use client"
+import React, { useEffect, useState } from "react";
+import api from "@/services/api";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -11,7 +10,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
+import CreateCampaignModal from "@/components/CampaignModal";
+import { Button } from "antd";
 
 interface CampaignType {
   _id: string;
@@ -31,63 +32,60 @@ interface CampaignType {
 const CampaignPage = () => {
   const [campaigns, setCampaigns] = useState<CampaignType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openCampaignModal, setOpenCampaignModal] = useState(false);
+
+
+  const fetchCampaigns = async () => {
+    try {
+      const res = await api.get("/campaign/allCampaign");
+      setCampaigns(res.data.data);
+    } catch (err) {
+      console.error("Error fetching campaigns:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const res = await api.get('/campaign/allCampaign');
-        setCampaigns(res.data.data);
-      } catch (err) {
-        console.error('Error fetching campaigns:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCampaigns();
   }, []);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+      <h1 className="text-4xl font-bold mb-4 text-center text-gray-800">
         📊 Campaign Dashboard
       </h1>
 
+      <div className="flex justify-end">
+        <Button variant="solid" onClick={()=>setOpenCampaignModal(!openCampaignModal)}>Create Campaign</Button>
+        <CreateCampaignModal openCampaignModal={openCampaignModal} setOpenCampaignModal={setOpenCampaignModal}/>
+      </div>
+
       {loading ? (
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-12 w-full rounded-md" />
           ))}
         </div>
       ) : campaigns.length > 0 ? (
-        <div className="border rounded-xl shadow-lg overflow-x-auto bg-white">
+        <div className="border rounded-xl shadow-lg overflow-x-auto bg-white mt-4">
           <Table className="min-w-full text-sm text-gray-700">
             <TableHeader className="bg-gray-100">
               <TableRow>
-                <TableHead className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                  Campaign Name
-                </TableHead>
-                <TableHead className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                  Created At
-                </TableHead>
-                <TableHead className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                  Segment
-                </TableHead>
-                <TableHead className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                  Audience Size
-                </TableHead>
-                <TableHead className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                  Created By
-                </TableHead>
+                <TableHead className="px-6 py-4">Name</TableHead>
+                <TableHead className="px-6 py-4">Created</TableHead>
+                <TableHead className="px-6 py-4">Segment</TableHead>
+                <TableHead className="px-6 py-4">Audience</TableHead>
+                <TableHead className="px-6 py-4">Created By</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {campaigns.map((campaign) => (
+              {campaigns.map((campaign, i) => (
                 <TableRow
                   key={campaign._id}
-                  className="hover:bg-gray-50 transition duration-150"
+                  className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
                 >
-                  <TableCell className="px-6 py-4 font-medium text-gray-800">
+                  <TableCell className="px-6 py-4 font-medium">
                     {campaign.name}
                   </TableCell>
                   <TableCell className="px-6 py-4">
@@ -95,14 +93,14 @@ const CampaignPage = () => {
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <Badge variant="outline">
-                      {campaign.segmentId?.name || 'N/A'}
+                      {campaign.segmentId?.name || "N/A"}
                     </Badge>
                   </TableCell>
                   <TableCell className="px-6 py-4">
-                    {campaign.audienceSize}
+                    {campaign.audienceSize ?? "N/A"}
                   </TableCell>
                   <TableCell className="px-6 py-4">
-                    {campaign.userId?.name || 'Unknown'}
+                    {campaign.userId?.name || "Unknown"}
                   </TableCell>
                 </TableRow>
               ))}
