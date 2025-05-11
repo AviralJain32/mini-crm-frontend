@@ -13,7 +13,7 @@ import { UserType } from '@/types/User';
 
 type NavbarProps = {
   isLoggedIn: boolean;
-  token: string;
+  token: string | undefined;
 };
 
 const menuVariants = {
@@ -25,7 +25,7 @@ const menuVariants = {
 export default function Navbar({ isLoggedIn, token }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const user: UserType = jwtDecode(token)
+  const user: UserType | null =token ? jwtDecode(token):null
 
   const handleLogout = async () => {
     await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`, {
