@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { RuleGroupType } from 'react-querybuilder';
 import { PreviewAudienceAndSaveSegmentModal } from '@/app/(dashboard)/dashboard/segments/PreviewAudienceModal';
-import SegmentTable from './SegmentTable';
 import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -118,7 +117,6 @@ export default function RulesPage() {
       </div>
 
       {/* Segment Table Below Form */}
-      <SegmentTable />
     </main>
   );
 }

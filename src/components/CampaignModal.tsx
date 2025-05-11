@@ -162,30 +162,31 @@ const CampaignModal = ({
         </DialogHeader>
 
         {!segmentId && (
-            <div className="space-y-2">
-                <Select
-                onValueChange={(val) => {
-                    const seg = availableSegments.find((s) => s.id === val);
-                    setSelectedSegmentId(val);
-                    setSelectedAudienceSize(seg?.audienceSize ?? null);
-                }}
-                >
-                <SelectTrigger className="w-56">
-                    <SelectValue placeholder="Choose a segment" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+          <div className="space-y-2">
+            <Select
+              value={selectedSegmentId ?? undefined}
+              onValueChange={(val) => {
+                const seg = availableSegments.find((s) => s.id === val);
+                setSelectedSegmentId(val);
+                setSelectedAudienceSize(seg?.audienceSize ?? null);
+              }}
+            >
+              <SelectTrigger className="w-56">
+                <SelectValue placeholder="Choose a segment" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
                   <SelectLabel>Select The Segment</SelectLabel>
-                    {availableSegments.map((seg) => (
-                    <SelectItem key={seg.id} value={seg.id}>
-                        {seg.name} ({seg.audienceSize} users)
+                  {availableSegments.map((seg) => (
+                    <SelectItem key={seg.id} value={String(seg.id)}>
+                      {seg.name} ({seg.audienceSize} users)
                     </SelectItem>
-                    ))}
-                    </SelectGroup>
-                </SelectContent>
-                </Select>
-            </div>
-            )}
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* AI Objective + Suggestions */}
         <div className="space-y-3">

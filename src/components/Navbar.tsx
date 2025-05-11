@@ -50,9 +50,16 @@ export default function Navbar({ isLoggedIn, token }: NavbarProps) {
         <div className="hidden lg:flex gap-6 items-center">
           {isLoggedIn && (
             <>
-              <Link href="/dashboard"><Button variant="ghost">Dashboard</Button></Link>
-              <Link href="/dashboard/segments"><Button variant="ghost">Segments</Button></Link>
-              <Link href="/dashboard/campaigns"><Button variant="ghost">Campaigns</Button></Link>
+              {/* <Link href="/dashboard"><Button variant="ghost">Dashboard</Button></Link> */}
+              <Link href="/dashboard/segments">
+                <Button variant="ghost">New Segment</Button>
+              </Link>
+              <Link href="/dashboard/AllSegments">
+                <Button variant="ghost">All Segments</Button>
+              </Link>
+              <Link href="/dashboard/campaigns">
+                <Button variant="ghost">Campaign Dashboard</Button>
+              </Link>
             </>
           )}
         </div>
@@ -89,7 +96,8 @@ export default function Navbar({ isLoggedIn, token }: NavbarProps) {
           >
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
+                {/* <Link href="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link> */}
+                <Link href="/dashboard/segments" onClick={() => setOpen(false)}>Segments</Link>
                 <Link href="/dashboard/segments" onClick={() => setOpen(false)}>Segments</Link>
                 <Link href="/dashboard/campaigns" onClick={() => setOpen(false)}>Campaigns</Link>
                 <span className="text-sm text-gray-600">{user?.name}</span>

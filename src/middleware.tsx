@@ -8,12 +8,12 @@ export function middleware(req: NextRequest) {
   // If token exists and user is on login or root, redirect to dashboard
   if (token && (pathname === '/' || pathname === '/login')) {
     const url = req.nextUrl.clone();
-    url.pathname = '/dashboard';
+    url.pathname = '/dashboard/segments';
     return NextResponse.redirect(url);
   }
 
   // If token is missing and user tries to access protected dashboard routes
-  if (!token && pathname.startsWith('/dashboard')) {
+  if (!token && pathname.startsWith('/dashboard/segments')) {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);

@@ -27,7 +27,12 @@ interface CampaignType {
   };
   createdAt: Date;
   updatedAt: Date;
+  stats?: {
+    sent: number;
+    failed: number;
+  };
 }
+
 
 const CampaignPage = () => {
   const [campaigns, setCampaigns] = useState<CampaignType[]>([]);
@@ -73,36 +78,42 @@ const CampaignPage = () => {
             <TableHeader className="bg-gray-100">
               <TableRow>
                 <TableHead className="px-6 py-4">Name</TableHead>
-                <TableHead className="px-6 py-4">Created</TableHead>
-                <TableHead className="px-6 py-4">Segment</TableHead>
-                <TableHead className="px-6 py-4">Audience</TableHead>
-                <TableHead className="px-6 py-4">Created By</TableHead>
+                  <TableHead className="px-6 py-4">Created</TableHead>
+                  <TableHead className="px-6 py-4">Segment</TableHead>
+                  <TableHead className="px-6 py-4">Audience</TableHead>
+                  {/* <TableHead className="px-6 py-4">Sent</TableHead>
+                  <TableHead className="px-6 py-4">Failed</TableHead> */}
+                  <TableHead className="px-6 py-4">Created By</TableHead>
+                  <TableHead className="px-6 py-4">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {campaigns.map((campaign, i) => (
                 <TableRow
-                  key={campaign._id}
-                  className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                >
-                  <TableCell className="px-6 py-4 font-medium">
-                    {campaign.name}
-                  </TableCell>
-                  <TableCell className="px-6 py-4">
-                    {new Date(campaign.createdAt).toLocaleString()}
-                  </TableCell>
-                  <TableCell className="px-6 py-4">
-                    <Badge variant="outline">
-                      {campaign.segmentId?.name || "N/A"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="px-6 py-4">
-                    {campaign.audienceSize ?? "N/A"}
-                  </TableCell>
-                  <TableCell className="px-6 py-4">
-                    {campaign.userId?.name || "Unknown"}
-                  </TableCell>
-                </TableRow>
+                    key={campaign._id}
+                    className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <TableCell className="px-6 py-4 font-medium">{campaign.name}</TableCell>
+                    <TableCell className="px-6 py-4">
+                      {new Date(campaign.createdAt).toLocaleString()}
+                    </TableCell>
+                    <TableCell className="px-6 py-4">
+                      <Badge variant="outline">{campaign.segmentId?.name || "N/A"}</Badge>
+                    </TableCell>
+                    <TableCell className="px-6 py-4">{campaign.audienceSize ?? "N/A"}</TableCell>
+                    {/* <TableCell className="px-6 py-4">{campaign.stats?.sent ?? 0}</TableCell>
+                    <TableCell className="px-6 py-4">{campaign.stats?.failed ?? 0}</TableCell> */}
+                    <TableCell className="px-6 py-4">{campaign.userId?.name || "Unknown"}</TableCell>
+                    <TableCell className="px-6 py-4">
+                      <Button
+                        type="link"
+                        onClick={() => window.location.href = `/dashboard/campaigns/${campaign._id}`}
+                      >
+                        View
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+
               ))}
             </TableBody>
           </Table>
