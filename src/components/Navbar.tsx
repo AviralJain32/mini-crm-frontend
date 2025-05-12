@@ -51,6 +51,12 @@ export default function Navbar({ isLoggedIn, token }: NavbarProps) {
           {isLoggedIn && (
             <>
               {/* <Link href="/dashboard"><Button variant="ghost">Dashboard</Button></Link> */}
+              <Link href="/dashboard/customers">
+                <Button variant="ghost">Customers</Button>
+              </Link>
+              <Link href="/dashboard/orders">
+                <Button variant="ghost">Orders</Button>
+              </Link>
               <Link href="/dashboard/segments">
                 <Button variant="ghost">New Segment</Button>
               </Link>
@@ -97,8 +103,10 @@ export default function Navbar({ isLoggedIn, token }: NavbarProps) {
             {isLoggedIn ? (
               <>
                 {/* <Link href="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link> */}
-                <Link href="/dashboard/segments" onClick={() => setOpen(false)}>Segments</Link>
-                <Link href="/dashboard/segments" onClick={() => setOpen(false)}>Segments</Link>
+                <Link href="/dashboard/customers" onClick={() => setOpen(false)}>Customers</Link>
+                <Link href="/dashboard/orders" onClick={() => setOpen(false)}>Orders</Link>
+                <Link href="/dashboard/segments" onClick={() => setOpen(false)}>New Segments</Link>
+                <Link href="/dashboard/AllSegments" onClick={() => setOpen(false)}>All Segments</Link>
                 <Link href="/dashboard/campaigns" onClick={() => setOpen(false)}>Campaigns</Link>
                 <span className="text-sm text-gray-600">{user?.name}</span>
                 <Button variant="destructive" onClick={handleLogout}>Logout</Button>

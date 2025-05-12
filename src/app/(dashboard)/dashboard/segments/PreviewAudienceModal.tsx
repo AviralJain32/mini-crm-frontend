@@ -53,6 +53,9 @@ export const PreviewAudienceAndSaveSegmentModal = ({ query }: SaveSegmentFormPro
   // Segment form
   const segmentForm = useForm<SegmentFormData>({
     resolver: zodResolver(segmentSchema),
+     defaultValues: {
+    name: '', // Make sure the default value is an empty string
+  },
   });
 
 

@@ -8,7 +8,7 @@ import api from "@/services/api";
 type LogType = {
   _id: string;
   status: "SENT" | "FAILED" | "PENDING";
-  campaignOwnerId: {
+  customerId: {
     name: string;
     email: string;
   };
@@ -57,8 +57,8 @@ export default function CampaignLogsPage() {
           <TableBody>
             {logs.map((log) => (
               <TableRow key={log._id}>
-                <TableCell>{log.campaignOwnerId?.name || "N/A"}</TableCell>
-                <TableCell>{log.campaignOwnerId?.email || "N/A"}</TableCell>
+                <TableCell>{log.customerId?.name || "N/A"}</TableCell>
+                <TableCell>{log.customerId?.email || "N/A"}</TableCell>
                 <TableCell>
                   <Badge
                     variant={
