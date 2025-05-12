@@ -28,7 +28,7 @@ export default function SegmentTable() {
       .then((res) => {
         setSegments(res.data.data.segments || []);
       })
-      .catch((error:any) => toast.error("Failed to load segments"+error))
+      .catch((error:unknown) => toast.error("Failed to load segments"+error))
       .finally(() => setLoading(false));
   }, []);
 

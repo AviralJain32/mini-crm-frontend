@@ -11,7 +11,7 @@ export default function LoginPage() {
   };
 
     const router = useRouter();
-
+  /* eslint-disable */
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get('token');
     if (token) {
@@ -25,7 +25,7 @@ export default function LoginPage() {
       router.replace('/dashboard/segments', undefined);
     }
   }, []);
-
+  /* eslint-enable */
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md text-center">

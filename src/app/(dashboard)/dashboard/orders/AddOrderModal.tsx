@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/select';
+import { AxiosErrorType } from '@/types/ErrorType';
 
 interface Customer {
   _id: string;
@@ -30,11 +31,11 @@ export default function AddOrderModal({ onOrderCreated }: { onOrderCreated: () =
       .catch(() => toast.error('Failed to fetch customers.'));
   }, []);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -48,8 +49,10 @@ export default function AddOrderModal({ onOrderCreated }: { onOrderCreated: () =
       onOrderCreated();
       setForm({ customerId: '', amount: '', date: '' });
       setOpen(false);
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to create order.");
+    } catch (err: unknown) {
+      const error = err as AxiosErrorType
+      const message = error?.response?.data?.message || "Failed to add customer.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }

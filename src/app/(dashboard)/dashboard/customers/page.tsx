@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AxiosErrorType } from '@/types/ErrorType';
 
 interface Customer {
   _id: string;
@@ -18,6 +19,14 @@ interface Customer {
   lastVisit: string;
   createdAt: string;
 }
+type FormData = {
+  name: string;
+  email: string;
+  phone: string;
+  totalSpend?: number;
+  visits?: number;
+  lastVisit?: Date;
+};
 
 function AddCustomerModal() {
   const [open, setOpen] = useState(false);
@@ -32,14 +41,14 @@ function AddCustomerModal() {
     lastVisit: ''
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const payload: any = {
+    const payload: FormData = {
       name: form.name,
       email: form.email,
       phone: form.phone
@@ -54,8 +63,9 @@ function AddCustomerModal() {
       toast.success(res?.data?.message || "Successfully added customer.");
       setForm({ name: '', email: '', phone: '', totalSpend: '', visits: '', lastVisit: '' });
       setOpen(false);
-    } catch (err: any) {
-      const message = err?.response?.data?.message || "Failed to add customer.";
+    } catch (err: unknown) {
+      const error = err as AxiosErrorType
+      const message = error?.response?.data?.message || "Failed to add customer.";
       toast.error(message);
     } finally {
       setLoading(false);  

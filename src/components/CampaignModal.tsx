@@ -74,6 +74,10 @@ const CampaignModal = ({
 
   const campaignForm = useForm<CampaignFormData>({
     resolver: zodResolver(campaignSchema),
+    defaultValues:{
+      campaignName:'',
+      message:'',
+    }
   });
 
   const getSuggestionsFromGemini = async (objective: string) => {
