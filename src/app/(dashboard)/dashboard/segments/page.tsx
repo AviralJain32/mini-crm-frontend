@@ -1,13 +1,16 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RuleGroupType } from 'react-querybuilder';
 import { PreviewAudienceAndSaveSegmentModal } from '@/app/(dashboard)/dashboard/segments/PreviewAudienceModal';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+
+import { useRouter } from 'next/navigation';
 
 const RuleBuilder = dynamic(
   () => import('@/app/(dashboard)/dashboard/segments/RuleBuilder'),
@@ -15,6 +18,23 @@ const RuleBuilder = dynamic(
 );
 
 export default function RulesPage() {
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get('token');
+    if (token) {
+      Cookies.set('token', token, {
+        secure: true,
+        sameSite: 'None',
+        expires: 1,
+      });
+
+      // Remove token from URL
+      router.replace('/dashboard/segments', undefined);
+    }
+  }, []);
+  
   const [query, setQuery] = useState<RuleGroupType>({
     combinator: 'and',
     rules: [],
