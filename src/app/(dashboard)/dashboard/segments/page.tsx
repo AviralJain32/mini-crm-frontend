@@ -18,22 +18,6 @@ const RuleBuilder = dynamic(
 );
 
 export default function RulesPage() {
-
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get('token');
-    if (token) {
-      Cookies.set('token', token, {
-        secure: true,
-        sameSite: 'None',
-        expires: 1,
-      });
-
-      // Remove token from URL
-      router.replace('/dashboard/segments', undefined);
-    }
-  }, []);
   
   const [query, setQuery] = useState<RuleGroupType>({
     combinator: 'and',

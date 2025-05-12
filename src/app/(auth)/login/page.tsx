@@ -1,11 +1,30 @@
 "use client";
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
 
   const loginWithGoogle = () => {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
+
+    const router = useRouter();
+
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get('token');
+    if (token) {
+      Cookies.set('token', token, {
+        secure: true,
+        sameSite: 'None',
+        expires: 1,
+      });
+
+      // Remove token from URL
+      router.replace('/dashboard/segments', undefined);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
