@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Xeno Mini CRM – Frontend
 
-First, run the development server:
+This is the frontend for the **Xeno Mini CRM** platform, built with **Next.js**, **Tailwind CSS**, and **React Query Builder**, designed to empower marketing teams to manage customer segmentation, run personalized campaigns, and leverage AI for intelligent messaging.
+
+## 🚀 Features
+
+- ✨ **Next.js 15** + **React 19** with full SSR support.
+- 🎨 **ShadCN UI** and **Tailwind CSS** for a beautiful and responsive design.
+- 🧠 **Google Gemini AI Integration** to generate smart campaign messages.
+- 📊 Dynamic **rule-based segment creation** using `react-querybuilder`.
+- 🔐 **Google OAuth2.0 login** with session via cookies.
+- 📦 Fully typed with **TypeScript**.
+- 🔄 Seamless interaction with backend Kafka-powered APIs.
+- 📷 AI-driven message 
+
+---
+
+
+## Local Setup Instructions
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/xeno-mini-crm.git
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create `.env` file:
+
+```bash
+# .env.example
+
+NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
+NEXT_PUBLIC_GEMINI_API_KEY=your_google_gemini_api_key_here
+```
+
+Run the backend (development mode):
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Visit http://localhost:3000 to view the app.
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js (App Router)
+- Tailwind CSS
+- ShadCN UI
+- React Query Builder (with DnD + Ant Design)
+- React Hook Form + Zod
+- Google Gemini API (client-side)
+- Axios for API interaction
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## AI Features (Google Gemini)
 
-To learn more about Next.js, take a look at the following resources:
+AI Features
+The platform uses Google Gemini API to supercharge user experience:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. ✉️ Smart Campaign Message Generator
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- When a marketer defines a goal (e.g., “bring back inactive users”), Gemini generates:
+- 2–3 human-like, brand-safe message suggestions
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. 📐 Intelligent Segment Rule Builder
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Input a business objective like “engaged but low-spending users” and Gemini suggests:
+- A rule group like: visits > 5 AND totalSpend < 1000
+- Ready-to-edit queries for easy campaign targeting
+
+
+Why Google Gemini API?
+- Free for developers – avoids costly token-based services
+- Fast response – ideal for real-time UX
+- Securely handled on the frontend, no backend proxy needed
+
+
+## Authors
+
+- [Aviral Jain](https://github.com/AviralJain32)
+Built with ❤️ as part of the Xeno SDE Internship Assignment – 2025
+
