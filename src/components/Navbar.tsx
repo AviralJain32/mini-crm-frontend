@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { UserType } from '@/types/User';
+import Cookies from 'js-cookie';
+
 
 type NavbarProps = {
   isLoggedIn: boolean;
@@ -27,13 +29,20 @@ export default function Navbar({ isLoggedIn, token }: NavbarProps) {
   const router = useRouter();
   const user: UserType | null =token ? jwtDecode(token):null
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
+  try {
     await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`, {
       withCredentials: true,
     });
+
+    Cookies.remove('token');
+
     router.push('/');
     window.location.reload();
-  };
+  } catch (error) {
+    console.error("Logout failed", error);
+  }
+};
 
   return (
     <nav className="bg-white border-b shadow-sm sticky top-0 z-50 w-full">
