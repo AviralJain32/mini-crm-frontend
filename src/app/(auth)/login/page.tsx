@@ -15,7 +15,7 @@ export default function LoginPage() {
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get('token');
     if (token) {
-      Cookies.set('token', token, {
+      Cookies.set('token1', token, {
         secure: true,
         sameSite: 'None',
         expires: 1,

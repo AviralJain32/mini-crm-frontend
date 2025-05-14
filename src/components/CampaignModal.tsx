@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -244,12 +245,15 @@ const CampaignModal = ({
               )}
             />
 
-            <FormField
+                        <FormField
               control={campaignForm.control}
               name="message"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Message</FormLabel>
+                  <FormDescription>
+                    To personalize your message, use <code>{'{{name}}'}</code> where you want to include the user's name.
+                  </FormDescription>
                   <FormControl>
                     <Input placeholder="Enjoy 20% off!" {...field} />
                   </FormControl>
