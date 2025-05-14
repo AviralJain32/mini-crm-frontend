@@ -252,7 +252,7 @@ const CampaignModal = ({
                 <FormItem>
                   <FormLabel>Message</FormLabel>
                   <FormDescription>
-                    To personalize your message, use <code>{'{{name}}'}</code> where you want to include the user's name.
+                    To personalize your message, use <code>{'{{name}}'}</code> where you want to include the user&apos;s name.
                   </FormDescription>
                   <FormControl>
                     <Input placeholder="Enjoy 20% off!" {...field} />
