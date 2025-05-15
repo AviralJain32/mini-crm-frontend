@@ -29,6 +29,8 @@ import {
 } from '@/components/ui/form';
 import { AxiosErrorType } from '@/types/ErrorType';
 import CampaignModal from '../../../../components/CampaignModal';
+import '@ant-design/v5-patch-for-react-19';
+
 
 // ------------------ Zod Schemas ------------------
 const segmentSchema = z.object({

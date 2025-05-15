@@ -27,6 +27,8 @@ import {
 import { AxiosErrorType } from '@/types/ErrorType';
 import { useRouter } from 'next/navigation';
 import { Loader } from "lucide-react";
+import '@ant-design/v5-patch-for-react-19';
+
 
 const campaignSchema = z.object({
   campaignName: z.string().min(1, 'Campaign name is required'),
@@ -53,13 +55,14 @@ const CampaignModal = ({
     const [objective, setObjective] = useState('');
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
     const [suggestions, setSuggestions] = useState<string[]>([]);
-    const [availableSegments, setAvailableSegments] = useState<{ id: string; name: string; audienceSize: number }[]>([]);
+    const [availableSegments, setAvailableSegments] = useState<{ _id: string; name: string; audienceSize: number }[]>([]);
     const [selectedSegmentId, setSelectedSegmentId] = useState<string | null>(null);
     const [selectedAudienceSize, setSelectedAudienceSize] = useState<number | null>(null);
 
     // Fetch segments when segmentId not provided
-    useEffect(() => {
-    if (!segmentId) {
+    const getAllSegments=()=>{
+      if (!segmentId) {
+        console.log('In the func if ' )
         axios
         .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/segment/allSegments`, {
             withCredentials: true,
@@ -69,7 +72,11 @@ const CampaignModal = ({
             setAvailableSegments(res.data.data.segments || []);
         })
         .catch(() => toast.error("Failed to load segments"));
+      }
     }
+
+    useEffect(() => {
+      getAllSegments()
     }, [segmentId]);
 
 
@@ -136,6 +143,12 @@ const CampaignModal = ({
 
   if (!finalSegmentId) return toast.error("Please select a segment");
 
+  console.log("campaign Submitted :")
+  console.log(finalSegmentId)
+  console.log(finalAudienceSize)  
+  console.log(data.campaignName)  
+  console.log(data.message)  
+
   try {
     await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign`,
@@ -148,6 +161,7 @@ const CampaignModal = ({
       { withCredentials: true }
     );
 
+    getAllSegments()
     toast.success("Campaign created successfully");
     setOpenCampaignModal(false);
     router.push(`/dashboard/campaigns`);
@@ -158,7 +172,6 @@ const CampaignModal = ({
 };
 
 
-  console.log(suggestions)
   return (
     <Dialog open={openCampaignModal} onOpenChange={setOpenCampaignModal}>
       <DialogContent className="max-w-xl">
@@ -170,8 +183,10 @@ const CampaignModal = ({
           <div className="space-y-2">
             <Select
               value={selectedSegmentId ?? undefined}
-              onValueChange={(val) => {
-                const seg = availableSegments.find((s) => s.id === val);
+              onValueChange={(val:any) => {
+                console.log(val)
+                const seg = availableSegments.find((s) => s._id === val);
+                console.log(seg)
                 setSelectedSegmentId(val);
                 setSelectedAudienceSize(seg?.audienceSize ?? null);
               }}
@@ -183,7 +198,7 @@ const CampaignModal = ({
                 <SelectGroup>
                   <SelectLabel>Select The Segment</SelectLabel>
                   {availableSegments.map((seg) => (
-                    <SelectItem key={seg.id} value={String(seg.id)}>
+                    <SelectItem key={seg._id} value={String(seg._id)}>
                       {seg.name} ({seg.audienceSize} users)
                     </SelectItem>
                   ))}
@@ -268,8 +283,8 @@ const CampaignModal = ({
               disabled={campaignForm.formState.isSubmitting}
             >
               {campaignForm.formState.isSubmitting
-                ? 'Creating...'
-                : 'Create Campaign'}
+                ? 'Creating Campaign...'
+                : 'Launch Campaign & Send Messages'}
             </Button>
           </form>
         </Form>

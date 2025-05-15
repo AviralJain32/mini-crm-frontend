@@ -5,7 +5,7 @@ import { QueryBuilderDnD } from '@react-querybuilder/dnd';
 import * as ReactDnD from 'react-dnd';
 import * as ReactDndHtml5Backend from 'react-dnd-html5-backend';
 import * as ReactDndTouchBackend from 'react-dnd-touch-backend';
-import type { Field, RuleGroupType, RuleType } from 'react-querybuilder';
+import type { DefaultOperators, Field, RuleGroupType, RuleType } from 'react-querybuilder';
 import { defaultValidator, QueryBuilder } from 'react-querybuilder';
 import 'react-querybuilder/dist/query-builder.css';
 import '@/styles/styles.css';
@@ -13,6 +13,20 @@ import { QueryBuilderAntD } from '@react-querybuilder/antd';
 import '@ant-design/v5-patch-for-react-19';
 
 export const validator = (r: RuleType) => !!r.value;
+
+
+export const defaultOperators: DefaultOperators = [
+  { name: '=', value: '=', label: '=' },
+  { name: '!=', value: '!=', label: '!=' },
+  { name: '<', value: '<', label: '<' },
+  { name: '>', value: '>', label: '>' },
+  { name: '<=', value: '<=', label: '<=' },
+  { name: '>=', value: '>=', label: '>=' },
+  { name: 'null', value: 'null', label: 'is null' },
+  { name: 'notNull', value: 'notNull', label: 'is not null' },
+  { name: 'between', value: 'between', label: 'between' },
+  { name: 'notBetween', value: 'notBetween', label: 'not between' },
+];
 
 
 const fields: Field[] = [
@@ -38,6 +52,7 @@ export default function RuleBuilder({
     >
       <QueryBuilderAntD>
         <QueryBuilder
+          operators={defaultOperators}
           fields={fields}
           query={query}
           onQueryChange={setQuery}
