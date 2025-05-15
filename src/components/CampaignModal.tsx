@@ -59,8 +59,7 @@ const CampaignModal = ({
     const [selectedSegmentId, setSelectedSegmentId] = useState<string | null>(null);
     const [selectedAudienceSize, setSelectedAudienceSize] = useState<number | null>(null);
 
-    // Fetch segments when segmentId not provided
-    const getAllSegments=()=>{
+    useEffect(() => {
       if (!segmentId) {
         console.log('In the func if ' )
         axios
@@ -73,10 +72,6 @@ const CampaignModal = ({
         })
         .catch(() => toast.error("Failed to load segments"));
       }
-    }
-
-    useEffect(() => {
-      getAllSegments()
     }, [segmentId]);
 
 
@@ -160,8 +155,7 @@ const CampaignModal = ({
       },
       { withCredentials: true }
     );
-
-    getAllSegments()
+    router.refresh()
     toast.success("Campaign created successfully");
     setOpenCampaignModal(false);
     router.push(`/dashboard/campaigns`);
@@ -183,7 +177,7 @@ const CampaignModal = ({
           <div className="space-y-2">
             <Select
               value={selectedSegmentId ?? undefined}
-              onValueChange={(val:any) => {
+              onValueChange={(val:string) => {
                 console.log(val)
                 const seg = availableSegments.find((s) => s._id === val);
                 console.log(seg)
