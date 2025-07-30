@@ -1,7 +1,7 @@
 
-# Xeno Mini CRM – Frontend
+# Mini CRM – Frontend
 
-This is the frontend for the **Xeno Mini CRM** platform, built with **Next.js**, **Tailwind CSS**, and **React Query Builder**, designed to empower marketing teams to manage customer segmentation, run personalized campaigns, and leverage AI for intelligent messaging.
+This is the frontend for the **Mini CRM** platform, built with **Next.js**, **Tailwind CSS**, and **React Query Builder**, designed to empower marketing teams to manage customer segmentation, run personalized campaigns, and leverage AI for intelligent messaging.
 
 ## 🚀 Features
 
@@ -22,7 +22,7 @@ This is the frontend for the **Xeno Mini CRM** platform, built with **Next.js**,
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/xeno-mini-crm.git
+git clone https://github.com/your-username/mini-crm.git
 cd frontend
 ```
 

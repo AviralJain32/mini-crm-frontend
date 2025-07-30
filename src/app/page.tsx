@@ -12,7 +12,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 text-blue-900 flex flex-col items-center justify-center px-6">
       <div className="text-center mb-12">
         <h1 className="text-5xl font-extrabold tracking-tight mb-4 text-blue-900">
-          Xeno Mini CRM
+          Mini CRM
         </h1>
         <p className="text-lg max-w-xl mx-auto text-blue-700">
           Supercharge your customer communication with a lightweight, powerful CRM built for modern marketing teams.

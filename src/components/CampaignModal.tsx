@@ -114,7 +114,7 @@ const CampaignModal = ({
             .replace(/\*\*$/, '')                // Remove trailing double stars
             .replace(/\*\*/g, '')                // Remove any remaining bold markers
             .replace(/\([^)]*\)/g, '')           // Remove text in parentheses
-            .replace(/\[.*?\]/g, 'Xeno Mini CRM Campaign')// Replace placeholder with actual name
+            .replace(/\[.*?\]/g, 'Mini CRM Campaign')// Replace placeholder with actual name
             .trim()
         )
         .filter(Boolean);
